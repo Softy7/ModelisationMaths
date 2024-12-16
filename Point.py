@@ -7,9 +7,9 @@ class Point:
         self.y = y
         self.connexion = []
 
-    def ajouterConnexion(self, courbe: Courbe):
+    def ajouterCourbe(self, courbe: Courbe):
         self.connexion.append(courbe)
 
-    def retirerConnexion(self, courbe: Courbe):
+    def retirerCourbe(self, courbe: Courbe):
         self.connexion.remove(courbe)
 
