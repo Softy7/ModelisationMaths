@@ -1,7 +1,7 @@
 from Point import Point
 
 
-class Connexion:
+class Courbe:
 
     def __init__(self, a: Point, b: Point):
         self.a = a
