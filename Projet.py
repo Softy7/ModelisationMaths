@@ -1,6 +1,8 @@
 from matplotlib import pyplot as plt
 import numpy as np
 
+from Bernstain import *
+
 
 def factoriel(n: int, produit: int = 1) -> int:
     if n < 0:
@@ -19,11 +21,11 @@ def coef_binomial(k: int, n: int) -> float:
     else:
         raise Exception("n doit être supérieur ou égal à k")
 
-def bernstain(i: int, n: int, t: float):
-    return coef_binomial(i, n) * (t**i) * ((1-t)**(n-i))
+def bernstain(i: int, n: int):
+    return Bernstain(i, n)
 
-def bezier():
-    pass
+def bezier(n: int):
+    return [Bernstain(i, n) for i in range(n)]
 
 def prog():
     #plt.ion()
@@ -31,7 +33,7 @@ def prog():
     #plt.show()
     print(factoriel(10))
     print(coef_binomial(5, 10))
-    print(bernstain(0, 3, (1/3)))
+    print(bernstain(0, 3))
 
 
 if __name__ == "__main__":
