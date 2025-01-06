@@ -1,10 +1,13 @@
+from cProfile import label
+
 from matplotlib import pyplot as plt
 import numpy as np
 
 from Bernstain import *
-import Point
+from Point import Point
 from math import sqrt
 
+alpha = (-408 + sqrt(368064)) / 360
 
 def factoriel(n: int, produit: int = 1) -> int:
     if n < 0:
@@ -24,12 +27,12 @@ def coef_binomial(k: int, n: int) -> float:
         raise Exception("n doit être supérieur ou égal à k")
 
 
-def bezier(points: list[Point.Point]):
+def bezier(points: list[Point]):
     return ([Bernstain(i, len(points) - 1, points[i].x) for i in range(len(points))],
             [Bernstain(i, len(points) - 1, points[i].y) for i in range(len(points))])
 
 
-def calculate_bezier_curve(points: list[Point.Point], num_points: int = 100) -> tuple[list[float], list[float]]:
+def calculate_bezier_curve(points: list[Point], num_points: int = 100) -> tuple[list[float], list[float]]:
     x_points = []
     y_points = []
     bernstains = bezier(points)
@@ -41,37 +44,54 @@ def calculate_bezier_curve(points: list[Point.Point], num_points: int = 100) -> 
         y_points.append(y)
     return x_points, y_points
 
-def prog():
-    #plt.ion()
-    #plt.plot()
-    #plt.show()
-    alpha = (-408 + sqrt(368064)) / 360
-    print(factoriel(10))
-    print(coef_binomial(5, 10))
-    points = [Point.Point(0, 0), Point.Point(0, alpha), Point.Point(1-alpha, 1), Point.Point(1,1)]
-
-
-    x_points, y_points = calculate_bezier_curve(points)
-
+def show_2D_graph(control_points: list[list[Point]], titre: str):
     plt.figure(figsize=(8, 6))
-    plt.plot(x_points, y_points, label='Courbe de Bézier')
+    for i in range(len(control_points)):
+        x_points, y_points = calculate_bezier_curve(control_points[i])
 
-    # Tracer les points de contrôle
-    control_x = [p.x for p in points]
-    control_y = [p.y for p in points]
-    plt.plot(control_x, control_y, 'ro--', label='Points de contrôle')
+        # trace la courbe de Bézier
+        plt.plot(x_points, y_points, 'k-')
 
-    # Ajouter des titres et des labels
-    plt.title('Courbe de Bézier')
+        # trace les points de contrôle
+        control_x = [p.x for p in control_points[i]]
+        control_y = [p.y for p in control_points[i]]
+        plt.plot(control_x, control_y, 'ro--')
+
+    plt.plot([], [], 'ro--', label='Points de contrôle')
+    plt.plot([], [], 'k-', label='Courbes de Bézier')
+    # plt.plot(control_x, control_y, 'ro--', label=f'Points de contrôle')
+    plt.title(titre)
     plt.xlabel('x')
     plt.ylabel('y')
     plt.legend()
 
-    # Afficher la grille
     plt.grid(True)
-
-    # Afficher le graphe
     plt.show()
+
+def prog():
+    #plt.ion()
+    #plt.plot()
+    #plt.show()
+
+    print(factoriel(10))
+    print(coef_binomial(5, 10))
+    points1 = [Point(0, 0), Point(0, alpha), Point(1-alpha, 1), Point(1,1)]
+    points2 = [Point(0, 0), Point(0, -alpha), Point(1-alpha, -1), Point(1,-1)]
+    points3 = [Point(2, 0), Point(2, alpha), Point(1+alpha, 1), Point(1,1)]
+    points4 = [Point(2, 0), Point(2, -alpha), Point(1 + alpha, -1), Point(1, -1)]
+    points5 = [Point(2, 1), Point(2, 0), Point(1.95, -0.75), Point(2.2, -1)]
+    lettre_a = [points1, points2, points3, points4, points5]
+
+    show_2D_graph(lettre_a, "Courbe de Bézier pour la lettre \"a\"")
+
+    pointsP_1 = [Point(0, -1), Point(0, 3)]
+    pointsP_2 = [Point(0, 1), Point(1, 1)]
+    pointsP_3 = [Point(0, 3), Point(1, 3)]
+    pointsP_4 = [Point(2, 2), Point(2, alpha + 2), Point(1 + alpha, 3), Point(1, 3)]
+    # points_P_5 = [Point(0, 3), Point(0, 3)]
+    lettreP = [pointsP_1, pointsP_2, pointsP_3, pointsP_4]
+
+    show_2D_graph(lettreP, "Courbe de Bézier pour la lettre \"P\"")
 
 
 
