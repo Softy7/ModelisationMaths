@@ -1,17 +1,16 @@
-from Courbe import Courbe
-
 class Point:
 
-    def __init__(self, x, y):
+    def __init__(self, x: float, y: float, z: float = 0):
+        """
+        Défini l'emplacement d'un point
+        :param x: coordonnées x
+        :param y: coordonnées y
+        :param z: coordonnées z, la valeur est 0 si non spécifiée
+        """
         self.x = x
         self.y = y
-        #self.connexion = []
-        """
+        self.z = z
 
-    def ajouterCourbe(self, courbe: Courbe):
-        self.connexion.append(courbe)
 
-    def retirerCourbe(self, courbe: Courbe):
-        self.connexion.remove(courbe)
-        """
+
 
